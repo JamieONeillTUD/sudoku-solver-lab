@@ -1,0 +1,35 @@
+name: Python Unit Tests
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow only on changes to the 'main' branch
+  pull_request:
+    branches:
+      - main  # Trigger the workflow on pull requests to the 'main' branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v3  # Check out the code from the repository
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'  # Use the latest Python 3 version
+
+    # Step 3: Install dependencies (if you have any dependencies, e.g., pytest)
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt || true  # If you have a 'requirements.txt' file
+
+    # Step 4: Run the tests
+    - name: Run tests
+      run: |
+        python -m unittest discover  # Run the tests in your repository (unittest will automatically find all test cases)
